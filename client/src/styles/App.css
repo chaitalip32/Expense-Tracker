@@ -1,0 +1,37 @@
+body {
+  margin: 0;
+  font-family: "Poppins", sans-serif;
+  background: #f4f6f8;
+  color: #333;
+}
+button {
+  background-color: #1976d2;
+  color: #fff;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+button:hover {
+  background-color: #1565c0;
+}
+
+.page-container {
+  padding: 30px 20px;
+  min-height: calc(100vh - 70px);
+  background-color: #f8f9fa;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 25px;
+  color: #222;
+  font-size: 2rem;
+}
+
+/* 🔹 Mobile-friendly typography */
+@media (max-width: 600px) {
+  h1 {
+    font-size: 1.5rem;
+  }
+}
