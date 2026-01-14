@@ -1,0 +1,244 @@
+/* =========================
+   Form Wrapper
+========================= */
+.expense-form,
+.income-form {
+  max-width: 520px;
+  margin: 30px auto;
+   padding: 24px 22px;
+  background-color: #FFFFFF;
+  border-radius: 16px;
+  box-shadow: 0 14px 35px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+   gap: 14px;
+}
+
+/* =========================
+   Inputs & Select
+========================= */
+.expense-form input,
+.expense-form select,
+.expense-form textarea,
+.income-form input,
+.income-form select,
+.income-form textarea {
+  padding: 12px 14px;
+  border: 1px solid #D1D5DB;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  width: 100%;
+  color: #111827;
+  background-color: #FFFFFF;
+  transition: border 0.2s ease, box-shadow 0.2s ease;
+}
+
+.expense-form textarea {
+  resize: vertical;
+  min-height: 90px;
+}
+
+.expense-form input:focus,
+.expense-form select:focus,
+.expense-form textarea:focus,
+.income-form input:focus,
+.income-form select:focus,
+.income-form textarea:focus {
+  border-color: #059669;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(5, 150, 105, 0.15);
+}
+
+/* =========================
+   Button
+========================= */
+.expense-form button,
+.income-form button {
+  margin-top: 10px;
+  background-color: #059669;
+  color: #FFFFFF;
+  border: none;
+  border-radius: 10px;
+  padding: 13px 0;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.expense-form button:hover,
+.income-form button:hover {
+  background-color: #047857;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(5, 150, 105, 0.35);
+}
+
+/* =========================
+   Messages
+========================= */
+.form-message {
+  text-align: center;
+  padding: 12px;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.form-message:empty {
+  display: none;
+}
+
+/* Success */
+.form-message {
+  background-color: #ECFDF5;
+  color: #065F46;
+  border: 1px solid #A7F3D0;
+}
+
+/* =========================
+   Page Title
+========================= */
+.page-title {
+  text-align: center;
+  margin-bottom: 25px;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+/* =========================
+   Responsive
+========================= */
+@media (max-width: 768px) {
+  .expense-form,
+  .income-form {
+    padding: 28px 22px;
+  }
+
+  .page-title {
+    font-size: 1.7rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .expense-form,
+  .income-form {
+    padding: 24px 18px;
+  }
+
+  .page-title {
+    font-size: 1.5rem;
+  }
+
+  .expense-form button,
+  .income-form button {
+    font-size: 0.95rem;
+    padding: 11px 0;
+  }
+}
+
+.update-form-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; /* ⬅ prevents title hiding */
+  padding-top: 90px;       /* ⬅ navbar height */
+  z-index: 999;
+}
+
+
+.update-form-container {
+  background: #ffffff;
+  width: 100%;
+  max-width: 520px;
+  max-height: calc(100vh - 140px); /* ⬅ prevents oversized modal */
+  overflow-y: auto;                /* ⬅ internal scroll */
+  padding: 24px;
+  border-radius: 18px;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
+  position: relative;
+  z-index: 1000;
+}
+
+.update-form-container h2 {
+  text-align: center;
+  margin-bottom: 16px;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+.form-buttons {
+  display: flex;
+  gap: 14px;
+}
+
+.submit-btn {
+  flex: 1;
+}
+
+.cancel-btn {
+  flex: 1;
+  background-color: #E5E7EB;
+  color: #111827;
+  border: none;
+  border-radius: 10px;
+  padding: 13px 0;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.cancel-btn:hover {
+  background-color: #D1D5DB;
+}
+.success {
+  background-color: #ECFDF5;
+  color: #065F46;
+  border: 1px solid #A7F3D0;
+  padding: 10px;
+  border-radius: 10px;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 12px;
+}
+
+.error {
+  background-color: #FEF2F2;
+  color: #991B1B;
+  border: 1px solid #FECACA;
+  padding: 10px;
+  border-radius: 10px;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 12px;
+}
+
+@media (max-width: 480px) {
+  .update-form-overlay {
+    padding-top: 70px; /* smaller navbar space */
+  }
+
+  .update-form-container {
+    max-width: 94%;
+    padding: 20px 16px;
+    border-radius: 14px;
+  }
+
+  .update-form-container h2 {
+    font-size: 1.35rem;
+  }
+
+  .expense-form,
+  .income-form {
+    padding: 18px 16px;
+  }
+
+  .form-buttons {
+    flex-direction: column;
+  }
+}
+  

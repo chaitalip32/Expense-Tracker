@@ -1,0 +1,73 @@
+/* ===========================
+   Chart Card
+=========================== */
+.bar-chart-card {
+  max-width: 850px;
+  margin: 40px auto;
+  padding: 24px 20px;
+  background: #FFFFFF;
+  border-radius: 16px;
+  border: 1px solid #E5E7EB;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.06);
+}
+
+/* Title */
+.bar-chart-card h2 {
+  text-align: center;
+  margin-bottom: 18px;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+/* ===========================
+   Custom Legend
+=========================== */
+.custom-legend {
+  display: flex;
+  justify-content: center;
+  gap: 25px;
+  margin-top: 10px;
+  font-size: 0.95rem;
+  color: #374151;
+}
+
+.legend {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border-radius: 4px;
+  margin-right: 8px;
+}
+
+.legend.income {
+  background-color: #16A34A;
+}
+
+.legend.expense {
+  background-color: #F97316;
+}
+
+/* ===========================
+   Responsive
+=========================== */
+@media (max-width: 768px) {
+  .bar-chart-card {
+    margin: 25px 15px;
+    padding: 20px 16px;
+  }
+
+  .bar-chart-card h2 {
+    font-size: 1.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .bar-chart-card {
+    padding: 16px 14px;
+  }
+
+  .bar-chart-card h2 {
+    font-size: 1.15rem;
+  }
+}

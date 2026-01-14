@@ -1,0 +1,222 @@
+/* =========================
+   Global Variables (Easy Control)
+========================= */
+:root {
+  --bg-main: #F9FAFB;
+  --bg-card: #FFFFFF;
+
+  --text-primary: #1F2933;
+  --text-secondary: #4B5563;
+  --text-muted: #9CA3AF;
+
+  --primary: #059669;      /* Emerald */
+  --primary-hover: #047857;
+
+  --danger: #B91C1C;
+  --danger-hover: #991B1B;
+
+  --border-light: #E5E7EB;
+}
+
+/* =========================
+   Body
+========================= */
+body {
+  margin: 0;
+  font-family: "Poppins", sans-serif;
+  background: var(--bg-main);
+  color: var(--text-primary);
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+/* =========================
+   Buttons
+========================= */
+button {
+  background-color: var(--primary);
+  color: #ffffff;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 1rem;
+  box-shadow: 0 6px 16px rgba(5, 150, 105, 0.25);
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  background-color: var(--primary-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(5, 150, 105, 0.35);
+}
+
+/* Danger button (Delete) */
+button.danger {
+  background-color: var(--danger);
+}
+
+button.danger:hover {
+  background-color: var(--danger-hover);
+  box-shadow: 0 10px 25px rgba(185, 28, 28, 0.35);
+}
+
+/* Secondary button */
+button.secondary {
+  background-color: var(--border-light);
+  color: var(--text-primary);
+  box-shadow: none;
+}
+
+button.secondary:hover {
+  background-color: #D1D5DB;
+}
+
+/* =========================
+   Page Container
+========================= */
+.page-container {
+  padding: 40px 30px;
+  min-height: calc(100vh - 70px);
+  background: var(--bg-card);
+  border-radius: 16px;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.08);
+  max-width: 1100px;
+  margin: 30px auto;
+  transition: all 0.3s ease;
+}
+
+.page-container:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 45px rgba(0, 0, 0, 0.12);
+}
+
+/* =========================
+   Headings
+========================= */
+h1 {
+  text-align: center;
+  margin-bottom: 30px;
+  color: var(--text-primary);
+  font-size: 2.2rem;
+  font-weight: 700;
+}
+
+h2, h3 {
+  color: var(--text-primary);
+  margin-bottom: 15px;
+}
+
+p {
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+/* =========================
+   Inputs & Selects
+========================= */
+input,
+select,
+textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--border-light);
+  border-radius: 8px;
+  font-size: 0.95rem;
+  color: var(--text-primary);
+  background-color: #ffffff;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: var(--primary);
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(5, 150, 105, 0.15);
+}
+
+/* =========================
+   Expense / Income Text
+========================= */
+.expense {
+  color: var(--danger);
+  font-weight: 600;
+}
+
+.income {
+  color: var(--primary);
+  font-weight: 600;
+}
+
+/* =========================
+   Cards (Lists, Summary)
+========================= */
+.card {
+  background: var(--bg-card);
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+  margin-bottom: 20px;
+}
+
+/* Summary Cards */
+.card.income {
+  border-left: 5px solid var(--primary);
+}
+
+.card.expense {
+  border-left: 5px solid var(--danger);
+}
+
+.card.balance {
+  border-left: 5px solid #374151;
+}
+
+/* =========================
+   Navigation Links
+========================= */
+a {
+  text-decoration: none;
+  color: var(--text-secondary);
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: var(--primary);
+}
+
+/* =========================
+   Responsive Design
+========================= */
+@media (max-width: 768px) {
+  .page-container {
+    padding: 30px 20px;
+    margin: 20px auto;
+  }
+
+  h1 {
+    font-size: 1.8rem;
+  }
+
+  button {
+    padding: 8px 16px;
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .page-container {
+    padding: 25px 15px;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  button {
+    padding: 6px 12px;
+    font-size: 0.9rem;
+  }
+}
