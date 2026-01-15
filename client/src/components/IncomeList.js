@@ -2,11 +2,18 @@ import React, { useState, useMemo } from "react";
 import "../styles/List.css";
 import UpdateIncomeForm from "./UpdateIncomeForm";
 
+/* ✅ Date formatter (dd/mm/yyyy) */
+const formatDate = (dateString) => {
+  if (!dateString) return "";
+  const date = new Date(dateString);
+  if (isNaN(date)) return "";
+  return date.toLocaleDateString("en-GB"); // dd/mm/yyyy
+};
+
 function IncomeList({ income = [], onDelete, refresh }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedIncome, setSelectedIncome] = useState(null);
   const [message, setMessage] = useState("");
-
 
   // 🔍 Filter incomes
   const filteredIncome = useMemo(() => {
@@ -43,7 +50,9 @@ function IncomeList({ income = [], onDelete, refresh }) {
     });
 
     const today = new Date().toISOString().split("T")[0];
-    const thisMonth = `${new Date().getFullYear()}-${new Date().getMonth() + 1}`;
+    const thisMonth = `${new Date().getFullYear()}-${
+      new Date().getMonth() + 1
+    }`;
     const thisYear = `${new Date().getFullYear()}`;
 
     return {
@@ -86,15 +95,21 @@ function IncomeList({ income = [], onDelete, refresh }) {
         <div className="totals-container">
           <div className="total-box">
             <h4>Today</h4>
-            <p>₹{totals.today.toFixed(2)}</p>
+            <p className="total-amount income-total">
+              ₹{totals.today.toFixed(2)}
+            </p>
           </div>
           <div className="total-box">
             <h4>This Month</h4>
-            <p>₹{totals.month.toFixed(2)}</p>
+            <p className="total-amount income-total">
+              ₹{totals.month.toFixed(2)}
+            </p>
           </div>
           <div className="total-box">
             <h4>This Year</h4>
-            <p>₹{totals.year.toFixed(2)}</p>
+            <p className="total-amount income-total">
+              ₹{totals.year.toFixed(2)}
+            </p>
           </div>
         </div>
       </div>
@@ -103,8 +118,14 @@ function IncomeList({ income = [], onDelete, refresh }) {
         {filteredIncome.map((inc) => (
           <div className="expense-item" key={inc._id}>
             <h3>{inc.title}</h3>
-            <p><strong>Amount:</strong> ₹{inc.amount}</p>
-            <p><strong>Date:</strong> {inc.date}</p>
+
+            <p>
+              <strong>Amount:</strong> ₹{inc.amount}
+            </p>
+
+            <p>
+              <strong>Date:</strong> {formatDate(inc.date)}
+            </p>
 
             {inc.description && (
               <p className="description">{inc.description}</p>

@@ -1,11 +1,11 @@
-// src/components/UpdateIncomeForm.jsx
 import React, { useState, useEffect, useContext } from "react";
 import { updateIncome } from "../services/api";
 import "../styles/Form.css";
 import { AuthContext } from "../context/AuthContext";
 
 function UpdateIncomeForm({ income, onClose, refresh }) {
-  const { token } = useContext(AuthContext); // ✅ get token from context
+  const today = new Date().toISOString().split("T")[0];
+  const { token } = useContext(AuthContext);
 
   const [form, setForm] = useState({
     title: "",
@@ -19,15 +19,15 @@ function UpdateIncomeForm({ income, onClose, refresh }) {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // Prefill form when income changes
+  // Prefill form
   useEffect(() => {
     if (income) {
       setForm({
-        title: income?.title || "",
-        amount: income?.amount || "",
-        category: income?.category || "",
-        date: income?.date ? income.date.split("T")[0] : "",
-        description: income?.description || "",
+        title: income.title || "",
+        amount: income.amount || "",
+        category: income.category || "",
+        date: income.date ? income.date.split("T")[0] : "",
+        description: income.description || "",
       });
       setMessage("");
       setError("");
@@ -43,19 +43,30 @@ function UpdateIncomeForm({ income, onClose, refresh }) {
     setMessage("");
 
     if (!token || !income?._id) {
-      setError("❌ Cannot update: Missing authentication or income data.");
+      setError("❌ Missing authentication or income data.");
+      return;
+    }
+
+    if (Number(form.amount) <= 0) {
+      setError("❌ Amount must be greater than 0");
       return;
     }
 
     setLoading(true);
     try {
-      await updateIncome(token, income._id, form);
+      await updateIncome(token, income._id, {
+        ...form,
+        amount: Number(form.amount),
+      });
+
       setMessage("✅ Income updated successfully!");
       if (typeof refresh === "function") refresh();
       setTimeout(() => onClose(), 1000);
     } catch (err) {
       console.error("Error updating income:", err);
-      setError(err.message || "❌ Failed to update income");
+      setError(
+        err?.response?.data?.message || "❌ Failed to update income"
+      );
     } finally {
       setLoading(false);
     }
@@ -80,21 +91,28 @@ function UpdateIncomeForm({ income, onClose, refresh }) {
             onChange={handleChange}
             required
           />
+
           <input
             name="amount"
             type="number"
             placeholder="Amount"
             value={form.amount}
+            min="1"
+            step="0.01"
+            onKeyDown={(e) => {
+              if (e.key === "-" || e.key === "e") e.preventDefault();
+            }}
             onChange={handleChange}
             required
           />
+
           <select
             name="category"
             value={form.category}
             onChange={handleChange}
             required
           >
-            <option value="">Select category</option>
+            <option value="" disabled hidden>Select category</option>
             <option value="Salary">Salary</option>
             <option value="Business">Business</option>
             <option value="Gift">Gift</option>
@@ -109,15 +127,18 @@ function UpdateIncomeForm({ income, onClose, refresh }) {
             name="date"
             type="date"
             value={form.date}
+            max={today}
             onChange={handleChange}
             required
           />
+
           <textarea
             name="description"
             placeholder="Description"
             value={form.description}
             onChange={handleChange}
           />
+
           <div className="form-buttons">
             <button type="submit" className="submit-btn" disabled={loading}>
               {loading ? "Updating..." : "Update"}

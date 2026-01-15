@@ -3,9 +3,17 @@ import { AuthContext } from "../context/AuthContext";
 import { addExpense } from "../services/api";
 import "../styles/Form.css";
 
+/* ✅ Helper function (OUTSIDE component) */
+const normalizeDate = (dateString) => {
+  if (!dateString) return "";
+  // Ensures only YYYY-MM-DD is sent (no timezone)
+  return new Date(dateString).toISOString().split("T")[0];
+};
+
 function ExpenseForm({ refresh }) {
-  const { token } = useContext(AuthContext); 
-  
+  const today = new Date().toISOString().split("T")[0];
+  const { token } = useContext(AuthContext);
+
   const [form, setForm] = useState({
     title: "",
     amount: "",
@@ -15,22 +23,33 @@ function ExpenseForm({ refresh }) {
   });
 
   const [message, setMessage] = useState("");
+  const [error, setError] = useState("");
 
   const handleChange = (e) =>
     setForm({ ...form, [e.target.name]: e.target.value });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setMessage("");
+    setError("");
 
     if (!token) {
-      setMessage("You are not logged in.");
+      setError("You are not logged in.");
+      return;
+    }
+
+    if (Number(form.amount) <= 0) {
+      setError("Amount must be greater than 0.");
       return;
     }
 
     try {
-      await addExpense(token, form);
+      await addExpense(token, {
+        ...form,
+        amount: Number(form.amount),
+        date: normalizeDate(form.date), // ✅ FIXED
+      });
 
-      // Reset form
       setForm({
         title: "",
         amount: "",
@@ -39,21 +58,19 @@ function ExpenseForm({ refresh }) {
         description: "",
       });
 
-      setMessage("Expense added successfully!");
-
+      setMessage("✅ Expense added successfully!");
       if (typeof refresh === "function") refresh();
-
       setTimeout(() => setMessage(""), 3000);
-    } catch (error) {
-      console.error("Error adding expense:", error);
-      setMessage("Failed to add expense. Please try again.");
-      setTimeout(() => setMessage(""), 3000);
+    } catch (err) {
+      console.error("Error adding expense:", err);
+      setError(err?.response?.data?.message || "Failed to add expense");
     }
   };
 
   return (
     <>
-      {message && <p className="form-message">{message}</p>}
+      {message && <p className="success">{message}</p>}
+      {error && <p className="error">{error}</p>}
 
       <form className="expense-form" onSubmit={handleSubmit}>
         <input
@@ -69,6 +86,11 @@ function ExpenseForm({ refresh }) {
           type="number"
           placeholder="Amount"
           value={form.amount}
+          min="1"
+          step="0.01"
+          onKeyDown={(e) => {
+            if (e.key === "-" || e.key === "e") e.preventDefault();
+          }}
           onChange={handleChange}
           required
         />
@@ -79,7 +101,9 @@ function ExpenseForm({ refresh }) {
           onChange={handleChange}
           required
         >
-          <option value="">Select category</option>
+          <option value="" disabled hidden>
+            Select category
+          </option>
           <option value="Food">Food</option>
           <option value="Travel">Travel</option>
           <option value="Shopping">Shopping</option>
@@ -96,10 +120,16 @@ function ExpenseForm({ refresh }) {
         </select>
 
         <input
+          type="text"
           name="date"
-          type="date"
+          placeholder="mm/dd/yyyy"
           value={form.date}
+          onFocus={(e) => (e.target.type = "date")}
+          onBlur={(e) => {
+            if (!e.target.value) e.target.type = "text";
+          }}
           onChange={handleChange}
+          max={today}
           required
         />
 

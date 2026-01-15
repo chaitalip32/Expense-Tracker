@@ -4,7 +4,8 @@ import { AuthContext } from "../context/AuthContext";
 import "../styles/Form.css";
 
 function IncomeForm({ refresh }) {
-  const { token } = useContext(AuthContext); // ✅ token from context
+  const today = new Date().toISOString().split("T")[0];
+  const { token } = useContext(AuthContext);
 
   const [form, setForm] = useState({
     title: "",
@@ -15,20 +16,31 @@ function IncomeForm({ refresh }) {
   });
 
   const [message, setMessage] = useState("");
+  const [error, setError] = useState("");
 
   const handleChange = (e) =>
     setForm({ ...form, [e.target.name]: e.target.value });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setMessage("");
+    setError("");
 
     if (!token) {
-      setMessage("You are not logged in.");
+      setError("You are not logged in.");
+      return;
+    }
+
+    if (Number(form.amount) <= 0) {
+      setError("Amount must be greater than 0.");
       return;
     }
 
     try {
-      await addIncome(token, form);
+      await addIncome(token, {
+        ...form,
+        amount: Number(form.amount),
+      });
 
       setForm({
         title: "",
@@ -38,20 +50,19 @@ function IncomeForm({ refresh }) {
         description: "",
       });
 
-      setMessage("Income added successfully!");
+      setMessage("✅ Income added successfully!");
       if (typeof refresh === "function") refresh();
-
       setTimeout(() => setMessage(""), 3000);
-    } catch (error) {
-      console.error("Error adding income:", error);
-      setMessage("Failed to add income. Please try again.");
-      setTimeout(() => setMessage(""), 3000);
+    } catch (err) {
+      console.error("Error adding income:", err);
+      setError(err?.response?.data?.message || "Failed to add income");
     }
   };
 
   return (
     <>
-      {message && <p className="form-message">{message}</p>}
+      {message && <p className="success">{message}</p>}
+      {error && <p className="error">{error}</p>}
 
       <form className="income-form" onSubmit={handleSubmit}>
         <input
@@ -67,6 +78,11 @@ function IncomeForm({ refresh }) {
           type="number"
           placeholder="Amount"
           value={form.amount}
+          min="1"
+          step="0.01"
+          onKeyDown={(e) => {
+            if (e.key === "-" || e.key === "e") e.preventDefault();
+          }}
           onChange={handleChange}
           required
         />
@@ -77,7 +93,9 @@ function IncomeForm({ refresh }) {
           onChange={handleChange}
           required
         >
-          <option value="">Select category</option>
+          <option value="" disabled hidden>
+            Select category
+          </option>
           <option value="Salary">Salary</option>
           <option value="Business">Business</option>
           <option value="Gift">Gift</option>
@@ -89,10 +107,16 @@ function IncomeForm({ refresh }) {
         </select>
 
         <input
+          type="text"
           name="date"
-          type="date"
+          placeholder="mm/dd/yyyy"
           value={form.date}
+          onFocus={(e) => (e.target.type = "date")}
+          onBlur={(e) => {
+            if (!e.target.value) e.target.type = "text";
+          }}
           onChange={handleChange}
+          max={today}
           required
         />
 

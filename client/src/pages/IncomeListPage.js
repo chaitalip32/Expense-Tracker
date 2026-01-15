@@ -21,13 +21,13 @@ function IncomeListPage() {
 
   // Delete income by ID
   const handleDelete = async (id) => {
-    try {
-      await deleteIncome(id, token);
-      setIncome((prev) => prev.filter((inc) => inc._id !== id));
-    } catch (error) {
-      console.error("Error deleting income:", error);
-    }
-  };
+  try {
+    await deleteIncome(token, id); // ✅ FIXED ORDER
+    setIncome((prev) => prev.filter((inc) => inc._id !== id));
+  } catch (error) {
+    console.error("Error deleting income:", error);
+  }
+};
 
   useEffect(() => {
     fetchIncome();

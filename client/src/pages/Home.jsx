@@ -1,12 +1,20 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
 import "../styles/Home.css";
 
 function Home() {
   const navigate = useNavigate();
+  const { token } = useContext(AuthContext); // ✅ check login state
 
   const handleGetStarted = () => {
-    navigate("/login");
+    if (token) {
+      // user already logged in
+      navigate("/add-expense");
+    } else {
+      // user not logged in
+      navigate("/login");
+    }
   };
 
   return (

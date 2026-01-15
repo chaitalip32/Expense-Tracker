@@ -3,13 +3,20 @@ import { AuthContext } from "../context/AuthContext";
 import "../styles/List.css";
 import UpdateExpenseForm from "./UpdateExpenseForm";
 
+// ✅ Date formatter (dd/mm/yyyy)
+const formatDate = (dateString) => {
+  if (!dateString) return "";
+  const date = new Date(dateString);
+  if (isNaN(date)) return "";
+  return date.toLocaleDateString("en-GB"); // dd/mm/yyyy
+};
+
 function ExpenseList({ expenses = [], onDelete, refresh }) {
   const { token } = useContext(AuthContext); // ✅ here
 
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedExpense, setSelectedExpense] = useState(null);
   const [message, setMessage] = useState("");
-
 
   const filteredExpenses = useMemo(() => {
     return expenses.filter(
@@ -39,7 +46,9 @@ function ExpenseList({ expenses = [], onDelete, refresh }) {
     });
 
     const today = new Date().toISOString().split("T")[0];
-    const thisMonth = `${new Date().getFullYear()}-${new Date().getMonth() + 1}`;
+    const thisMonth = `${new Date().getFullYear()}-${
+      new Date().getMonth() + 1
+    }`;
     const thisYear = `${new Date().getFullYear()}`;
 
     return {
@@ -54,7 +63,7 @@ function ExpenseList({ expenses = [], onDelete, refresh }) {
       try {
         await onDelete(id); // call parent's delete function
         setMessage("Expense deleted successfully!");
-        
+
         setTimeout(() => setMessage(""), 3000); // hide after 3s
       } catch (error) {
         setMessage("Failed to delete expense. Try again.");
@@ -69,8 +78,8 @@ function ExpenseList({ expenses = [], onDelete, refresh }) {
 
   return (
     <div className="expense-list-container">
-      {message && <p className="form-message">{message}</p>} {/* ✅ show message */}
-
+      {message && <p className="form-message">{message}</p>}{" "}
+      {/* ✅ show message */}
       <div className="expense-header">
         <input
           type="text"
@@ -83,19 +92,24 @@ function ExpenseList({ expenses = [], onDelete, refresh }) {
         <div className="totals-container">
           <div className="total-box">
             <h4>Today</h4>
-            <p>₹{totals.today.toFixed(2)}</p>
+            <p className="total-amount expense-total">
+              ₹{totals.today.toFixed(2)}
+            </p>
           </div>
           <div className="total-box">
             <h4>This Month</h4>
-            <p>₹{totals.month.toFixed(2)}</p>
+            <p className="total-amount expense-total">
+              ₹{totals.month.toFixed(2)}
+            </p>
           </div>
           <div className="total-box">
             <h4>This Year</h4>
-            <p>₹{totals.year.toFixed(2)}</p>
+            <p className="total-amount expense-total">
+              ₹{totals.year.toFixed(2)}
+            </p>
           </div>
         </div>
       </div>
-
       <div className="expense-list">
         {filteredExpenses.map((expense) => (
           <div className="expense-item" key={expense._id}>
@@ -107,7 +121,7 @@ function ExpenseList({ expenses = [], onDelete, refresh }) {
               <strong>Category:</strong> {expense.category}
             </p>
             <p>
-              <strong>Date:</strong> {expense.date}
+              <strong>Date:</strong> {formatDate(expense.date)}
             </p>
             {expense.description && (
               <p className="description">{expense.description}</p>
@@ -118,19 +132,18 @@ function ExpenseList({ expenses = [], onDelete, refresh }) {
                 className="update-btn"
                 onClick={() => setSelectedExpense(expense)}
               >
-                 Update
+                Update
               </button>
               <button
                 className="delete-btn"
                 onClick={() => handleDeleteClick(expense._id)}
               >
-                 Delete
+                Delete
               </button>
             </div>
           </div>
         ))}
       </div>
-
       {selectedExpense && (
         <UpdateExpenseForm
           token={token}

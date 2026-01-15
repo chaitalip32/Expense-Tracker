@@ -2,7 +2,7 @@
    Page Background
 ======================== */
 .page-container {
-  background-color: #F9FAFB;
+  background-color: #f9fafb;
   min-height: 100vh;
   padding: 40px 0;
 }
@@ -14,9 +14,9 @@
   max-width: 1100px;
   margin: auto;
   padding: 30px;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
   border-radius: 16px;
-  box-shadow: 0 12px 30px rgba(0,0,0,0.06);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.06);
   display: flex;
   flex-direction: column;
   gap: 24px;
@@ -34,14 +34,14 @@
 .search-input {
   padding: 12px 14px;
   border-radius: 10px;
-  border: 1px solid #E5E7EB;
+  border: 1px solid #e5e7eb;
   font-size: 0.95rem;
 }
 
 .search-input:focus {
   outline: none;
   border-color: #059669;
-  box-shadow: 0 0 0 2px rgba(5,150,105,0.15);
+  box-shadow: 0 0 0 2px rgba(5, 150, 105, 0.15);
 }
 
 /* ========================
@@ -56,8 +56,8 @@
 .total-box {
   flex: 1;
   min-width: 160px;
-  background-color: #F9FAFB;
-  border: 1px solid #E5E7EB;
+  background-color: #f9fafb;
+  border: 1px solid #e5e7eb;
   border-radius: 14px;
   padding: 16px;
 }
@@ -65,14 +65,31 @@
 .total-box h4 {
   margin: 0;
   font-size: 0.9rem;
-  color: #6B7280;
+  color: #6b7280;
 }
 
 .total-box p {
   margin-top: 6px;
   font-size: 1.2rem;
   font-weight: 700;
-  color: #059669;
+  /* color: #059669; */
+}
+
+/* ========================
+   Totals Amount Colors
+======================== */
+.total-amount {
+  margin-top: 6px;
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.expense-total {
+  color: #dc2626; /* red */
+}
+
+.income-total {
+  color: #059669; /* green */
 }
 
 /* ========================
@@ -85,15 +102,15 @@
 }
 
 .expense-item {
-  border: 1px solid #E5E7EB;
+  border: 1px solid #e5e7eb;
   border-radius: 14px;
   padding: 18px;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
   transition: box-shadow 0.2s ease;
 }
 
 .expense-item:hover {
-  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
 }
 
 .expense-item h3 {
@@ -111,7 +128,7 @@
 .description {
   margin-top: 6px;
   font-style: italic;
-  color: #6B7280;
+  color: #6b7280;
 }
 
 /* ========================
@@ -126,7 +143,7 @@
 
 .update-btn {
   background-color: #059669;
-  color: #FFFFFF;
+  color: #ffffff;
   border: none;
   padding: 8px 14px;
   border-radius: 8px;
@@ -139,8 +156,8 @@
 }
 
 .delete-btn {
-  background-color: #DC2626;
-  color: #FFFFFF;
+  background-color: #dc2626;
+  color: #ffffff;
   border: none;
   padding: 8px 14px;
   border-radius: 8px;
@@ -149,7 +166,7 @@
 }
 
 .delete-btn:hover {
-  background-color: #B91C1C;
+  background-color: #b91c1c;
 }
 
 /* ========================
@@ -159,9 +176,9 @@
   text-align: center;
   padding: 10px;
   border-radius: 8px;
-  background-color: #ECFDF5;
-  color: #065F46;
-  border: 1px solid #A7F3D0;
+  background-color: #ecfdf5;
+  color: #065f46;
+  border: 1px solid #a7f3d0;
   font-weight: 600;
 }
 

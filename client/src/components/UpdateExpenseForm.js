@@ -6,6 +6,8 @@ import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 
 function UpdateExpenseForm({ expense, refresh, onClose }) {
+  const today = new Date().toISOString().split("T")[0];
+
   const { token } = useContext(AuthContext);
 
   const [form, setForm] = useState({
@@ -44,7 +46,12 @@ function UpdateExpenseForm({ expense, refresh, onClose }) {
     setMessage("");
 
     if (!token || !expense?._id) {
-      setError("❌ Cannot update: Missing authentication or expense data.");
+      setError("Cannot update: Missing authentication or expense data.");
+      return;
+    }
+
+    if (Number(form.amount) <= 0) {
+      setError("Amount must be greater than 0");
       return;
     }
 
@@ -56,7 +63,11 @@ function UpdateExpenseForm({ expense, refresh, onClose }) {
       setTimeout(() => onClose(), 1000); // auto-close after 1s
     } catch (err) {
       console.error("Error updating expense:", err);
-      setError(err.message || "❌ Failed to update expense");
+
+      const backendMessage =
+        err?.response?.data?.message || "Failed to update expense";
+
+      setError(backendMessage);
     } finally {
       setLoading(false);
     }
@@ -86,16 +97,21 @@ function UpdateExpenseForm({ expense, refresh, onClose }) {
             type="number"
             placeholder="Amount"
             value={form.amount}
+            min="1"
+            step="0.01"
             onChange={handleChange}
             required
           />
+
           <select
             name="category"
             value={form.category}
             onChange={handleChange}
             required
           >
-            <option value="">Select category</option>
+            <option value="" disabled hidden>
+              Select category
+            </option>
             <option value="Food">Food</option>
             <option value="Travel">Travel</option>
             <option value="Shopping">Shopping</option>
@@ -115,9 +131,11 @@ function UpdateExpenseForm({ expense, refresh, onClose }) {
             name="date"
             type="date"
             value={form.date}
+            max={today}
             onChange={handleChange}
             required
           />
+
           <textarea
             name="description"
             placeholder="Description"
