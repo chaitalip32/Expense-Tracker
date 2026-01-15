@@ -52,14 +52,24 @@
 .income-form select:valid {
   color: #111827;
 }
-/* Gray placeholder style for date input */
-input[type="date"] {
-  color: #9ca3af; /* Gray color for empty input */
+/* =========================
+   DATE INPUT FIX (IMPORTANT)
+========================= */
+
+/* Gray text when no date selected */
+input[type="date"].date-empty {
+  color: #9ca3af;
 }
 
-input[type="date"]:focus,
-input[type="date"]:not(:placeholder-shown) {
-  color: #111827; /* Black when user picks a date */
+/* Normal text when date selected */
+input[type="date"] {
+  color: #111827;
+}
+
+/* Ensure calendar icon is visible (mobile + desktop) */
+input[type="date"]::-webkit-calendar-picker-indicator {
+  opacity: 1;
+  cursor: pointer;
 }
 
 .expense-form textarea,

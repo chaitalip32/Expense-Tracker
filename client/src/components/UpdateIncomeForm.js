@@ -64,9 +64,7 @@ function UpdateIncomeForm({ income, onClose, refresh }) {
       setTimeout(() => onClose(), 1000);
     } catch (err) {
       console.error("Error updating income:", err);
-      setError(
-        err?.response?.data?.message || "❌ Failed to update income"
-      );
+      setError(err?.response?.data?.message || "❌ Failed to update income");
     } finally {
       setLoading(false);
     }
@@ -112,7 +110,9 @@ function UpdateIncomeForm({ income, onClose, refresh }) {
             onChange={handleChange}
             required
           >
-            <option value="" disabled hidden>Select category</option>
+            <option value="" disabled hidden>
+              Select category
+            </option>
             <option value="Salary">Salary</option>
             <option value="Business">Business</option>
             <option value="Gift">Gift</option>

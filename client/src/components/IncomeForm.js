@@ -107,7 +107,7 @@ function IncomeForm({ refresh }) {
         </select>
 
         <input
-          type="text"
+          type="date"
           name="date"
           placeholder="mm/dd/yyyy"
           value={form.date}
