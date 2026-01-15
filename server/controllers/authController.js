@@ -1,6 +1,6 @@
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const User = require('../models/User');
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+const User = require("../models/User");
 
 // 🔹 Register User
 exports.register = async (req, res) => {
@@ -44,7 +44,9 @@ exports.login = async (req, res) => {
 
     // ✅ Validation
     if (!email || !password) {
-      return res.status(400).json({ message: "Email and password are required" });
+      return res
+        .status(400)
+        .json({ message: "Email and password are required" });
     }
 
     // ✅ Check if user exists
@@ -53,14 +55,13 @@ exports.login = async (req, res) => {
 
     // ✅ Compare password
     const isMatch = await bcrypt.compare(password, user.passwordHash);
-    if (!isMatch) return res.status(400).json({ message: "Invalid credentials" });
+    if (!isMatch)
+      return res.status(400).json({ message: "Invalid credentials" });
 
     // ✅ Generate JWT
-    const token = jwt.sign(
-      { id: user._id },
-      process.env.JWT_SECRET,
-      { expiresIn: '7d' }
-    );
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+      expiresIn: "7d",
+    });
 
     // ✅ Send response
     res.json({
@@ -74,10 +75,9 @@ exports.login = async (req, res) => {
   }
 };
 
-
 exports.getProfile = async (req, res) => {
   try {
-    const user = await User.findById(req.user.id).select('-passwordHash');
+    const user = await User.findById(req.user.id).select("-passwordHash");
     if (!user) return res.status(404).json({ message: "User not found" });
     res.json(user);
   } catch (err) {

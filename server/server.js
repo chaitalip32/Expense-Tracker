@@ -13,7 +13,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// React build path
+// React build
 const clientBuildPath = path.join(__dirname, "..", "client", "build");
 app.use(express.static(clientBuildPath));
 
@@ -22,11 +22,8 @@ app.use("/api/auth", authRoutes);
 app.use("/api/expenses", expenseRoutes);
 app.use("/api/income", incomeRoutes);
 
-// 🔥 SPA fallback (IMPORTANT)
-app.get("*", (req, res) => {
-  if (req.path.startsWith("/api")) {
-    return res.status(404).json({ message: "API route not found" });
-  }
+// EXPRESS v5 SAFE SPA FALLBACK
+app.get(/^(?!\/api).*/, (req, res) => {
   res.sendFile(path.join(clientBuildPath, "index.html"));
 });
 
@@ -38,4 +35,4 @@ mongoose
     console.log("MongoDB connected");
     app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
   })
-  .catch((err) => console.error(err));
+  .catch((err) => console.error("DB error:", err));
