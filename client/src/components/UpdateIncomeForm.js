@@ -124,12 +124,13 @@ function UpdateIncomeForm({ income, onClose, refresh }) {
           </select>
 
           <input
-            name="date"
             type="date"
+            name="date"
             value={form.date}
-            max={today}
             onChange={handleChange}
+            max={today}
             required
+            className={!form.date ? "date-empty" : ""}
           />
 
           <textarea

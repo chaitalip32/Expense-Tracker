@@ -109,15 +109,11 @@ function IncomeForm({ refresh }) {
         <input
           type="date"
           name="date"
-          placeholder="mm/dd/yyyy"
           value={form.date}
-          onFocus={(e) => (e.target.type = "date")}
-          onBlur={(e) => {
-            if (!e.target.value) e.target.type = "text";
-          }}
           onChange={handleChange}
           max={today}
           required
+          className={!form.date ? "date-empty" : ""}
         />
 
         <textarea
