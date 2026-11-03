@@ -22,7 +22,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/expenses", expenseRoutes);
 app.use("/api/income", incomeRoutes);
 
-EXPRESS v5 SAFE SPA FALLBACK
+//EXPRESS v5 SAFE SPA FALLBACK
 app.get(/^(?!\/api).*/, (req, res) => {
   res.sendFile(path.join(clientBuildPath, "index.html"));
 });
